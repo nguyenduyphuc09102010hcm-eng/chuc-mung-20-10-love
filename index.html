@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Chúc Mừng Ngày 20/10 🌸</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Hiệu ứng trái tim bay nền -->
+  <div class="floating-hearts" id="floating-hearts"></div>
+
+  <!-- Nút mở Bảng Chỉnh Sửa (Editor Mode) -->
+  <button class="editor-toggle-btn" id="open-editor-btn" title="Chế độ chỉnh sửa">
+    <i class="fa-solid fa-gear"></i>
+  </button>
+
+  <div class="container">
+
+    <!-- 1. MÀN HÌNH CHÀO MỪNG -->
+    <div id="welcome-screen" class="screen active">
+      <div class="card">
+        <div style="font-size: 4rem; margin-bottom: 10px;">🎁</div>
+        <h1 id="welcome-title">Gửi Đến Một Nửa Thế Giới ❤️</h1>
+        <p id="welcome-subtitle">Nhấn nút bên dưới để mở món quà bất ngờ dành riêng cho bạn nhé!</p>
+        
+        <div id="recipient-greeting-badge" style="margin-bottom: 20px; font-weight: 600; color: var(--accent);"></div>
+
+        <button class="btn" id="start-btn">
+          Khám Phá Ngay <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. MÀN HÌNH CHÍNH (KHU VỰC LỜI CHÚC & QUÀ) -->
+    <div id="main-screen" class="screen">
+      <div class="card">
+        <h1 id="main-title-display">Chúc Mừng 20/10! 🌸</h1>
+        <h3 id="recipient-name-display" style="color: var(--primary); margin-bottom: 15px;">Gửi Cậu</h3>
+        <p id="main-greeting-text">Chúc bạn luôn rạng rỡ, tự tin và hạnh phúc trong ngày đặc biệt này!</p>
+        <p style="font-weight: 600; color: var(--accent); margin-top: 15px;" id="sender-name-display">-- Từ Tập Thể Lớp --</p>
+      </div>
+
+      <!-- Khu vực Hộp quà tương tác -->
+      <div class="card">
+        <h2>Hộp Quà Bí Mật 🎁</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;">Nhấn vào từng hộp quà để khám phá thông điệp bên trong nhé!</p>
+        <div class="gift-grid" id="gift-grid-container">
+          <!-- Render bởi JS -->
+        </div>
+      </div>
+
+      <!-- Khu vực Thư bí mật -->
+      <div class="card">
+        <h2>Những Bức Thư Nhỏ 💌</h2>
+        <div id="letters-container">
+          <!-- Render bởi JS -->
+        </div>
+      </div>
+
+      <!-- Khu vực Mini Game -->
+      <div class="card" id="minigame-card">
+        <h2>Thử Thách Nhỏ 🎮</h2>
+        <p id="game-question">Ngày 20/10 là ngày gì nhỉ?</p>
+        <div class="game-options" id="game-options-container">
+          <!-- Render bởi JS -->
+        </div>
+        <p id="game-result-msg" style="margin-top: 15px; font-weight: 600; display: none;"></p>
+      </div>
+
+      <!-- Nút xem màn hình kết thúc -->
+      <div style="text-align: center; margin-bottom: 40px;">
+        <button class="btn" id="go-to-end-btn">Xem Lời Chúc Cuối Cùng ✨</button>
+      </div>
+    </div>
+
+    <!-- 3. MÀN HÌNH KẾT THÚC -->
+    <div id="end-screen" class="screen">
+      <div class="card">
+        <div style="font-size: 4rem; margin-bottom: 10px;">💐</div>
+        <h1 id="end-title">Chúc Mừng 20/10 Thật Ý Nghĩa! 🌸</h1>
+        <p id="end-message">Mong rằng món quà nhỏ này mang lại cho bạn thật nhiều tiếng cười và niềm vui.</p>
+        <h3 id="end-sign" style="color: var(--accent); margin-top: 20px;">Thân ái và yêu thương ❤️</h3>
+        <button class="btn" id="restart-btn" style="margin-top: 20px;">Quay Lại Trang Đầu 🏠</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL HIỂN THỊ NỘI DUNG QUÀ / THƯ -->
+  <div class="modal" id="content-modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-modal-btn">&times;</span>
+      <h2 id="modal-title">Tiêu Đề</h2>
+      <p id="modal-body">Nội dung hiển thị ở đây...</p>
+      <button class="btn" id="modal-ok-btn" style="padding: 8px 20px; font-size: 1rem;">Tuyệt vời! ✨</button>
+    </div>
+  </div>
+
+  <!-- BẢNG ĐIỀU KHIỂN CHỈNH SỬA (EDITOR PANEL) -->
+  <div class="editor-panel" id="editor-panel">
+    <div class="editor-header">
+      <h2><i class="fa-solid fa-sliders"></i> Bảng Điều Khiển Chỉnh Sửa</h2>
+      <button class="btn" id="close-editor-btn" style="background: #e74c3c; padding: 8px 16px; font-size: 0.9rem;">Đóng <i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="editor-tabs">
+      <button class="tab-btn active" data-tab="tab-general">1. Nội Dung Chung</button>
+      <button class="tab-btn" data-tab="tab-gifts">2. Hộp Quà & Thư</button>
+      <button class="tab-btn" data-tab="tab-game">3. Mini Game</button>
+      <button class="tab-btn" data-tab="tab-recipients">4. Người Nhận & Link</button>
+      <button class="tab-btn" data-tab="tab-backup">5. Sao Lưu & Xuất Bản</button>
+    </div>
+
+    <!-- Tab 1: Nội dung chung -->
+    <div class="tab-content active" id="tab-general">
+      <div class="form-group">
+        <label>Tiêu đề trang Web:</label>
+        <input type="text" id="edit-websiteTitle">
+      </div>
+      <div class="form-group">
+        <label>Tiêu đề chào mừng:</label>
+        <input type="text" id="edit-welcomeTitle">
+      </div>
+      <div class="form-group">
+        <label>Lời dẫn chào mừng:</label>
+        <textarea id="edit-welcomeSubtitle"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Lời chúc chính:</label>
+        <textarea id="edit-mainGreeting"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Tên người gửi (Ký tên):</label>
+        <input type="text" id="edit-senderName">
+      </div>
+      <div class="form-group">
+        <label>Màu chủ đạo (Primary Color):</label>
+        <input type="color" id="edit-primaryColor" style="height: 40px;">
+      </div>
+      <button class="btn" id="save-general-btn">Lưu Thay Đổi</button>
+    </div>
+
+    <!-- Tab 2: Hộp quà & Thư -->
+    <div class="tab-content" id="tab-gifts">
+      <h3>Quản Lý Hộp Quà</h3>
+      <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Chỉnh sửa nội dung các hộp quà xuất hiện trên trang chính.</p>
+      <div id="editor-gifts-list"></div>
+
+      <h3 style="margin-top: 30px;">Quản Lý Thư Bí Mật</h3>
+      <div id="editor-letters-list"></div>
+    </div>
+
+    <!-- Tab 3: Mini Game -->
+    <div class="tab-content" id="tab-game">
+      <div class="form-group">
+        <label>Câu hỏi Mini Game:</label>
+        <input type="text" id="edit-gameQuestion">
+      </div>
+      <div class="form-group">
+        <label>Thông điệp khi trả lời đúng:</label>
+        <textarea id="edit-gameSuccess"></textarea>
+      </div>
+      <button class="btn" id="save-game-btn">Lưu Mini Game</button>
+    </div>
+
+    <!-- Tab 4: Quản lý người nhận & Tạo link -->
+    <div class="tab-content" id="tab-recipients">
+      <h3>Tạo Link Cá Nhân Hóa Cho Từng Người Nhận</h3>
+      <p style="font-size: 0.9rem; margin-bottom: 15px;">Thêm tên và lời chúc riêng cho bạn bè. Khi chia sẻ link, người nhận sẽ thấy đúng tên và lời chúc của họ!</p>
+      
+      <div style="background: #f1f1f1; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+        <h4>Thêm Người Nhận Mới</h4>
+        <div class="form-group" style="margin-top: 10px;">
+          <label>Mã ID (không dấu, ví dụ: lan-anh):</label>
+          <input type="text" id="new-rec-id" placeholder="vd: linh-chi">
+        </div>
+        <div class="form-group">
+          <label>Tên hiển thị:</label>
+          <input type="text" id="new-rec-name" placeholder="vd: Linh Chi xinh đẹp">
+        </div>
+        <div class="form-group">
+          <label>Lời chúc riêng:</label>
+          <textarea id="new-rec-greeting" placeholder="Lời chúc riêng dành cho bạn này..."></textarea>
+        </div>
+        <button class="btn" id="add-recipient-btn" style="padding: 8px 20px; font-size: 1rem;">Thêm & Tạo Link</button>
+      </div>
+
+      <h4>Danh Sách Người Nhận Đã Tạo</h4>
+      <div id="recipients-mgmt-list" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Tab 5: Sao lưu & Xuất bản -->
+    <div class="tab-content" id="tab-backup">
+      <h3>Sao Lưu & Khôi Phục Dữ Liệu</h3>
+      <p>Bạn có thể tải xuống file cấu hình JSON để lưu trữ hoặc nhập lại khi cần.</p>
+      <div style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn" id="export-json-btn" style="background: #27ae60;"><i class="fa-solid fa-download"></i> Tải Xuống File JSON</button>
+        <label class="btn" style="background: #2980b9; cursor: pointer; display: inline-block;">
+          <i class="fa-solid fa-upload"></i> Nhập File JSON <input type="file" id="import-json-file" accept=".json" style="display: none;">
+        </label>
+        <button class="btn" id="reset-default-btn" style="background: #c0392b;"><i class="fa-solid fa-rotate-left"></i> Khôi Phục Mặc Định</button>
+      </div>
+
+      <h3 style="margin-top: 30px;">Hướng Dẫn Triển Khai GitHub Pages</h3>
+      <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; font-size: 0.95rem; line-height: 1.6;">
+        <p>1. Tạo một repository mới trên GitHub (public).</p>
+        <p>2. Tải lên 4 file: <code>index.html</code>, <code>style.css</code>, <code>data.js</code>, <code>app.js</code>.</p>
+        <p>3. Vào <strong>Settings</strong> -> <strong>Pages</strong> của repository.</p>
+        <p>4. Tại mục <strong>Build and deployment</strong>, chọn Branch là <code>main</code> (hoặc <code>master</code>) và thư mục <code>/ (root)</code>, rồi nhấn <strong>Save</strong>.</p>
+        <p>5. Sau 1-2 phút, GitHub sẽ cung cấp link công khai cho bạn!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
