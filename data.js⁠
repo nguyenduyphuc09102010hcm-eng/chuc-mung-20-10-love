@@ -1,0 +1,86 @@
+// Dữ liệu mặc định và cấu hình website chúc mừng 20/10
+const DEFAULT_CONFIG = {
+  // Cài đặt chung
+  general: {
+    websiteTitle: "Chúc Mừng Ngày 20/10 🌸",
+    welcomeTitle: "Gửi Đến Một Nửa Thế Giới ❤️",
+    welcomeSubtitle: "Nhấn nút bên dưới để mở món quà bất ngờ dành riêng cho bạn nhé!",
+    senderName: "Tập thể lớp 11 Anh 1 & Bạn bè",
+    defaultRecipientName: "Cậu",
+    mainGreeting: "Chúc bạn luôn rạng rỡ, tự tin, luôn nở nụ cười trên môi và đạt được mọi ước mơ trong cuộc sống!",
+    primaryColor: "#ff758c",
+    secondaryColor: "#ff7eb3",
+    backgroundColor: "#fff0f3",
+    fontFamily: "'Quicksand', sans-serif"
+  },
+  
+  // Danh sách hộp quà tương tác (3-6 hộp)
+  giftBoxes: [
+    { id: 1, title: "Hộp Quà May Mắn", icon: "🎁", message: "Chúc bạn một ngày 20/10 ngập tràn hoa, quà và những lời chúc ngọt ngào nhất!" },
+    { id: 2, title: "Lời Khen Có Cánh", icon: "✨", message: "Bạn hôm nay rất xinh đẹp và năng lượng! Hãy luôn giữ tinh thần tuyệt vời này nhé." },
+    { id: 3, title: "Bí Mật Nhỏ", icon: "💌", message: "Cảm ơn vì đã luôn là một người bạn tuyệt vời, luôn lắng nghe và chia sẻ cùng mọi người." },
+    { id: 4, title: "Năng Lượng Tích Cực", icon: "🍀", message: "Mong mọi điều tốt đẹp nhất sẽ đến với bạn trong hôm nay và cả những ngày sắp tới!" }
+  ],
+
+  // Các lá thư bí mật
+  secretLetters: [
+    { id: 'letter1', title: "Một điều tui muốn nói...", subtitle: "Nhấn để mở bức thư tâm tình", content: "Thực ra có nhiều lúc nhìn thấy bạn chăm chỉ học tập và cười đùa cùng mọi người, tui thấy lớp mình thật may mắn khi có một thành viên đáng yêu như bạn. Chúc bạn luôn giữ vững phong độ và thành công nha!", sender: "Bạn cùng bàn" },
+    { id: 'letter2', title: "Mở khi bạn cần vui vẻ", subtitle: "Liều thuốc tinh thần cho ngày mới", content: "Dù có chuyện gì xảy ra đi nữa, hãy nhớ rằng bạn luôn có những người bạn ở đây sẵn sàng ủng hộ bạn. Cười lên một cái xem nào! 😉", sender: "Đội ngũ sáng tạo" }
+  ],
+
+  // Mini-game (Trắc nghiệm vui 20/10)
+  miniGame: {
+    enabled: true,
+    question: "Ngày 20/10 là ngày gì nhỉ?",
+    options: [
+      { text: "Ngày Phụ nữ Việt Nam 🌸", correct: true },
+      { text: "Ngày Nhà giáo", correct: false },
+      { text: "Ngày hội đọc sách", correct: false }
+    ],
+    successMessage: "Chính xác! Bạn thật là thông minh và tinh tế. Nhận ngay một tràng pháo tay và lời chúc tuyệt vời nhất!",
+    failureMessage: "Úi, thử lại chút xíu nha! Gợi ý: Ngày tôn vinh một nửa thế giới nước mình đó."
+  },
+
+  // Màn hình kết thúc
+  endScreen: {
+    title: "Chúc Mừng 20/10 Thật Ý Nghĩa! 💐",
+    message: "Mong rằng món quà nhỏ này mang lại cho bạn thật nhiều tiếng cười và niềm vui trong ngày hôm nay.",
+    finalSign: "Thân ái và yêu thương ❤️"
+  },
+
+  // Danh sách người nhận để tạo link cá nhân hóa
+  recipients: [
+    {
+      id: "linh-chi",
+      name: "Linh Chi",
+      displayName: "Linh Chi xinh đẹp ✨",
+      customGreeting: "Chúc Chi ngày 20/10 ngập tràn hoa hồng, luôn xinh tươi, học giỏi và lúc nào cũng cười tươi như hoa nhé!",
+      sender: "Phúc & Các bạn nam 11 Anh 1"
+    },
+    {
+      id: "thao-vy",
+      name: "Thảo Vy",
+      displayName: "Thảo Vy dễ thương 🌸",
+      customGreeting: "Chúc Vy 20/10 nhận được thật nhiều quà, luôn vui vẻ và đạt điểm cao trong mọi kỳ thi sắp tới nha!",
+      sender: "Tập thể lớp"
+    }
+  ]
+};
+
+// Quản lý LocalStorage cho Editor Mode
+const StorageManager = {
+  getConfig() {
+    const saved = localStorage.getItem('site_config_2010');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { console.error(e); }
+    }
+    return DEFAULT_CONFIG;
+  },
+  saveConfig(config) {
+    localStorage.setItem('site_config_2010', JSON.stringify(config));
+  },
+  resetConfig() {
+    localStorage.removeItem('site_config_2010');
+    return DEFAULT_CONFIG;
+  }
+};
